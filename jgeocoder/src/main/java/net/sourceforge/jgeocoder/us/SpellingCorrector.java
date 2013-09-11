@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.sourceforge.jgeocoder.InterruptibleCharSequence;
+
 import org.apache.commons.lang.StringUtils;
 /**
  * Javadocs me
@@ -35,7 +37,7 @@ public class SpellingCorrector{
     String[] tokens = rawAddress.toUpperCase().split("\\s+");
     int end = tokens.length -1;
     for(int i = end; i>0; i--){
-      if(DIGIT.matcher(tokens[i]).matches()){
+      if(DIGIT.matcher(new InterruptibleCharSequence(tokens[i])).matches()){
         end --;
       }else{
         break; //end is the index of the last non-all-digits token

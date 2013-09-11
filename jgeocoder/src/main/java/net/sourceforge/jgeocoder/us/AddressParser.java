@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.jgeocoder.AddressComponent;
+import net.sourceforge.jgeocoder.InterruptibleCharSequence;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -41,7 +42,7 @@ public class AddressParser{
   private static final Pattern STATES = Pattern.compile(RegexLibrary.US_STATES);
   
   private static String getCleanSttring(String rawAddr){
-    return CLEANUP.matcher(rawAddr).replaceAll(" ").replaceAll("\\s+", " ").trim();
+    return CLEANUP.matcher(new InterruptibleCharSequence(rawAddr)).replaceAll(" ").replaceAll("\\s+", " ").trim();
   }
   /**
    * Parses a raw address string 
@@ -54,7 +55,7 @@ public class AddressParser{
     if(autoCorrectStateSpelling){
       rawAddr = SpellingCorrector.correctStateSpelling(rawAddr);
     }
-    Matcher m = STREET_ADDRESS.matcher(rawAddr);
+    Matcher m = STREET_ADDRESS.matcher(new InterruptibleCharSequence(rawAddr));
     Map<AddressComponent, String> ret = null;
     if(m.matches()){
       ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
@@ -63,7 +64,7 @@ public class AddressParser{
       String line12sep = ret.get(AddressComponent.TLID);//HACK!
       if(!line12sep.contains(",") 
           && (splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr))!=null){
-        m = STREET_ADDRESS.matcher(splitRawAddr);
+        m = STREET_ADDRESS.matcher(new InterruptibleCharSequence(splitRawAddr));
         if(m.matches()){
           ret = getAddrMap(m, P_STREET_ADDRESS.getNamedGroupMap());
           ret.remove(AddressComponent.TLID);//HACK!
@@ -72,16 +73,16 @@ public class AddressParser{
       }
       ret.remove(AddressComponent.TLID);//HACK!
     }
-    m = CORNER.matcher(rawAddr);
+    m = CORNER.matcher(new InterruptibleCharSequence(rawAddr));
     if(ret == null && m.find()){
-      m = INTERSECTION.matcher(rawAddr);
+      m = INTERSECTION.matcher(new InterruptibleCharSequence(rawAddr));
       if(m.matches()){
         ret = getAddrMap(m, P_INTERSECTION.getNamedGroupMap());
       }
     }
     
     if(ret == null){
-      m = CSZ.matcher(rawAddr);
+      m = CSZ.matcher(new InterruptibleCharSequence(rawAddr));
       if(m.matches()){
         ret = getAddrMap(m, P_CSZ.getNamedGroupMap());
       }
@@ -100,13 +101,13 @@ public class AddressParser{
   private static void postProcess(Map<AddressComponent, String> m){
     //these are (temporary?) hacks...
     if(m.get(TYPE) == null && m.get(STREET)!= null 
-            && STREET_TYPES.matcher(m.get(STREET).toUpperCase()).matches()){
+            && STREET_TYPES.matcher(new InterruptibleCharSequence(m.get(STREET).toUpperCase())).matches()){
       m.put(TYPE, m.get(STREET));
       m.put(STREET, m.get(PREDIR));
       m.put(PREDIR, null);
     }
     if(m.get(STATE) == null && m.get(LINE2)!= null 
-            && STATES.matcher(m.get(LINE2).toUpperCase()).matches()){
+            && STATES.matcher(new InterruptibleCharSequence(m.get(LINE2).toUpperCase())).matches()){
       m.put(STATE, m.get(LINE2));
       m.put(LINE2, null);
     }
@@ -135,7 +136,7 @@ public class AddressParser{
     String type = parsedLocation.get(AddressComponent.TYPE);
     String line2 = parsedLocation.get(AddressComponent.LINE2);
     if(street == null || type == null || line2 != null || street.split(" ").length < 2){ return null;}
-      Matcher m = STREET_DESIGNATOR_CHECK.matcher(street);
+      Matcher m = STREET_DESIGNATOR_CHECK.matcher(new InterruptibleCharSequence(street));
       if(m.find()){
           String parsedstate = parsedLocation.get(AddressComponent.STATE);
           if(parsedstate == null){

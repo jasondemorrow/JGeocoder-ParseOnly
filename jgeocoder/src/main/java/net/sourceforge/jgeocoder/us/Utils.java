@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.jgeocoder.InterruptibleCharSequence;
 /**
  * Utilities, Not meant for general consumptions
  * @author jliang
@@ -13,7 +14,7 @@ class Utils{
   private static final Pattern NAMED_GROUP_PATTERN = Pattern.compile("\\(\\?P<(.*?)>");
   //assumes all capturing groups are named
   public static NamedGroupPattern compile(String regex){
-    Matcher m = NAMED_GROUP_PATTERN.matcher(regex);
+    Matcher m = NAMED_GROUP_PATTERN.matcher(new InterruptibleCharSequence(regex));
     Map<Integer, String> namedGroupMap = new HashMap<Integer, String>();
     int i =1;
     while(m.find()){

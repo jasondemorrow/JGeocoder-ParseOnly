@@ -29,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.jgeocoder.AddressComponent;
+import net.sourceforge.jgeocoder.InterruptibleCharSequence;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -57,15 +58,15 @@ public class AddressStandardizer{
     appendIfNotNull(sb, parsedAddr.get(NUMBER), " ");
     appendIfNotNull(sb, parsedAddr.get(PREDIR), " ");
     appendIfNotNull(sb, parsedAddr.get(STREET), " ");
+    appendIfNotNull(sb, parsedAddr.get(TYPE), " ");
+    appendIfNotNull(sb, parsedAddr.get(POSTDIR), " ");
     if(parsedAddr.get(STREET2) != null){
-      appendIfNotNull(sb, parsedAddr.get(TYPE2), " ");
-      appendIfNotNull(sb, parsedAddr.get(POSTDIR2), " ");
       sb.append("& ");
       appendIfNotNull(sb, parsedAddr.get(PREDIR2), " ");
       appendIfNotNull(sb, parsedAddr.get(STREET2), " ");
+      appendIfNotNull(sb, parsedAddr.get(TYPE2), " ");
+      appendIfNotNull(sb, parsedAddr.get(POSTDIR2), " ");
     }
-    appendIfNotNull(sb, parsedAddr.get(TYPE), " ");
-    appendIfNotNull(sb, parsedAddr.get(POSTDIR), " ");
     if(StringUtils.isNotBlank(sb.toString())){
       sb.append(", ");
     }
@@ -82,13 +83,19 @@ public class AddressStandardizer{
     }
   }
   
+  public static Map<AddressComponent, String> normalizeParsedAddress(Map<AddressComponent, String> parsedAddr) {
+	  return normalizeParsedAddress(parsedAddr, true);
+  }
+  
   /**
    * Normalize the input parsedAddr map into a standardize format
    * 
    * @param parsedAddr
    * @return normalized address in a map
    */
-  public static Map<AddressComponent, String>  normalizeParsedAddress(Map<AddressComponent, String> parsedAddr){
+  public static Map<AddressComponent, String>  
+  normalizeParsedAddress(Map<AddressComponent, String> parsedAddr, boolean resolveCityAliases)
+  {
     Map<AddressComponent, String> ret = new EnumMap<AddressComponent, String>(AddressComponent.class);
     //just take the digits from the number component
     for(Map.Entry<AddressComponent, String> e : parsedAddr.entrySet()){
@@ -110,7 +117,7 @@ public class AddressStandardizer{
         default: ret.put(e.getKey(), v); break;
       }
     }
-    ret.put(CITY, resolveCityAlias(ret.get(CITY), ret.get(STATE)));
+    if(resolveCityAliases) ret.put(CITY, resolveCityAlias(ret.get(CITY), ret.get(STATE)));
     return ret;
   }
   //oh man... what had i got myself into...
@@ -119,7 +126,7 @@ public class AddressStandardizer{
   private static final Pattern DIGIT = Pattern.compile("(.*?\\d+)\\W*(.+)?");
   private static String normalizeNum(String num){
     if(num == null) return null;
-    Matcher m = TXT_NUM.matcher(num);
+    Matcher m = TXT_NUM.matcher(new InterruptibleCharSequence(num));
     String ret = null;
     if(m.matches()){
       ret = m.group(1);
@@ -131,7 +138,7 @@ public class AddressStandardizer{
         ret = getNUMBER_MAP().get(ret);
       }
     }else{
-      m = DIGIT.matcher(num);
+      m = DIGIT.matcher(new InterruptibleCharSequence(num));
       if(m.matches()){
         ret = m.group(2) == null? m.group(1): m.group(1)+"-"+m.group(2);
       }
@@ -155,7 +162,7 @@ public class AddressStandardizer{
   private static final Pattern LINE2A = Pattern.compile("\\W*(?:"+LINE2A_GROUPED+")\\W*");
   private static String normalizeLine2(String line2){
     if(line2 == null) return null;
-    Matcher m = LINE2A.matcher(line2);
+    Matcher m = LINE2A.matcher(new InterruptibleCharSequence(line2));
     if(m.matches()){
       for(Map.Entry<String, String> e : getUNIT_MAP().entrySet()){
         if(line2.startsWith(e.getKey()+" ")){

@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
 import javax.sql.DataSource;
 
 import net.sourceforge.jgeocoder.AddressComponent;
+import net.sourceforge.jgeocoder.InterruptibleCharSequence;
 import net.sourceforge.jgeocoder.us.AddressParser;
 import net.sourceforge.jgeocoder.us.AddressStandardizer;
-
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.lang.ObjectUtils;
@@ -112,7 +112,7 @@ class TigerLineDao{
   
   private static final Pattern DIGIT = Pattern.compile("^.*?(\\d+).*$");
   private static String getStreetNum(String streetNum){
-    Matcher m = DIGIT.matcher(streetNum);
+    Matcher m = DIGIT.matcher(new InterruptibleCharSequence(streetNum));
     if(!m.matches()){
       throw new RuntimeException("Cannot find valid street number");
     }
