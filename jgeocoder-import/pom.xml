@@ -71,8 +71,8 @@
   <dependencies>
       <dependency>
           <groupId>net.sourceforge.jgeocoder</groupId>
-          <artifactId>jgeocoder</artifactId>
-          <version>0.5-SNAPSHOT</version>
+          <artifactId>jgeocoder-nysenate</artifactId>
+          <version>0.7</version>
       </dependency>
     <dependency>
        <groupId>org.codehaus.groovy </groupId>

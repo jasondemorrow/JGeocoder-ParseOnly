@@ -11,9 +11,13 @@ import java.util.zip.ZipEntry
 import TigerDefinition
 import TigerTable
 import groovy.sql.Sql
-import org.apache.commons.lang.StringUtils
 
+println "starting..."
+
+/*
 @Grab(group='commons-lang', module='commons-lang', version='2.4')
+import org.apache.commons.lang.StringUtils
+@Grab(group='net.sourceforge.jgeocoder', module='jgeocoder-nysenate', version='0.7')
 import net.sourceforge.jgeocoder.us.AddressParser;
 import net.sourceforge.jgeocoder.AddressComponent;
 import net.sourceforge.jgeocoder.us.AddressStandardizer;
@@ -25,9 +29,13 @@ import static net.sourceforge.jgeocoder.AddressComponent.STREET;
 
 def nvl(def val, def replacement){ val==null?replacement:val}
 
+println "opening connection"
+
 Class.forName('com.mysql.jdbc.Driver')
-Connection conn = DriverManager.getConnection(args[1], args[2], args[3])
+Connection conn = DriverManager.getConnection("jdbc:h2:/home/jason/tiger/addrfeat/h2db/tiger_2013")
 conn.setAutoCommit(false);
+
+println "creating table"
     
 Sql sql = new Sql(conn)
 sql.execute("""DROP TABLE IF EXISTS TIGER_NY""");
@@ -64,11 +72,14 @@ sql.execute("""
         LATLONGPAIRS text);
         """)
         
-        
+sql.commit()
+println "table created"
+
 PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(/error.csv/)))
 int total = 0, error =0;
-new File(args[0]).eachLine{
-  if((total++)%10000==0){
+println "opening file..."
+new File("/home/jason/git/JGeocoder-NYSenate/jgeocoder-import/src/main/groovy/data.csv").eachLine{
+  if((total++)%100==0){
     println total
     sql.commit()
   }
@@ -161,3 +172,4 @@ sql.execute('create index IDX7_TIGER_NY on TIGER_NY(zipR)')
 
 sql.close()
 ps.close()
+*/
