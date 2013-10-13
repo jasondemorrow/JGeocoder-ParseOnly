@@ -96,14 +96,14 @@ class TigerLineDao{
   
   
   private static final String TIGER_QUERY = "SELECT *"+
-		  /*"select t.tlid, t.fraddr, t.fraddl, t.toaddr, t.toaddl,"+
+          /*"select t.tlid, t.fraddr, t.fraddl, t.toaddr, t.toaddl,"+
 " t.zipL, t.zipR, " +
 //" t.tolat, t.tolong, t.frlong, t.frlat,"+
 "t.bbox, t.latlongpairs, t.fullname"+
-		  " t.fedirp, t.fetype, t.fedirs " +*/
-		  " from TIGER_{0} t where t.fename = ? and (t.zipL = ? or t.zipR = ?) and"+
+          " t.fedirp, t.fetype, t.fedirs " +*/
+          " from TIGER_{0} t where t.fename = ? and (t.zipL = ? or t.zipR = ?) and"+
           "(" + 
-		  "(t.fraddL <= ? and t.toaddL >= ?) or (t.fraddL >= ? and t.toaddL <= ?) "+
+          "(t.fraddL <= ? and t.toaddL >= ?) or (t.fraddL >= ? and t.toaddL <= ?) "+
           "    or (t.fraddR <= ? and t.toaddR >= ?) or (t.fraddR >= ? and t.toaddR <= ?))";
   private DataSource _tigerDs;
   public TigerLineDao(DataSource tigerDs){

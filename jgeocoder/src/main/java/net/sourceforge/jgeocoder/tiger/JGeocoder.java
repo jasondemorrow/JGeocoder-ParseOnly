@@ -47,8 +47,8 @@ public class JGeocoder{
   }
 
   private TigerLineHit getTigerLineHitByZip(Map<AddressComponent, String> normalizedAddr, String zip) throws TigerQueryFailedException, DatabaseException{
-	  
-	  //I removed the "!" from before _zipDao (Vincent Hueber)
+      
+      //I removed the "!" from before _zipDao (Vincent Hueber)
       if(zip == null || _zipDao.fillInCSByZip(normalizedAddr, zip)){
           return null;
       }
@@ -84,7 +84,7 @@ public class JGeocoder{
     TigerLineHit hit = null;
     Set<String> attemptedZips = new HashSet<String>();
     try { //try the parsed zip
-    	
+        
       hit = getTigerLineHitByZip(normalizedAddr, normalizedAddr.get(ZIP));
       if(normalizedAddr.get(ZIP)!=null){
           attemptedZips.add(normalizedAddr.get(ZIP));
@@ -161,7 +161,7 @@ public class JGeocoder{
     m = new EnumMap<AddressComponent, String>(m);
     TigerLineHit hit = null;
     try {
-    	//PROBLEM IS HERE(VIN)
+        //PROBLEM IS HERE(VIN)
       hit = getTigerLineHit(m);
     } catch (DatabaseException e) {
       throw new RuntimeException("Unable to query tiger/line database "+e.getMessage());

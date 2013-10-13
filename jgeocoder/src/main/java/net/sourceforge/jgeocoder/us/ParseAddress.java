@@ -16,20 +16,20 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class ParseAddress {
-	private static final Logger LOG = Logger.getLogger(ParseAddress.class);
-	private static final int REASONABLE_UPPER_BOUND = 80;
-	
-	public static Map<AddressComponent, String> withTimeout(String rawAddress) {
-		return withTimeout(rawAddress, 4, TimeUnit.SECONDS);
-	}
-	
-	public static Map<AddressComponent, String> withTimeout(String rawAddress, int timeoutValue, TimeUnit timeoutUnit) {
+    private static final Logger LOG = Logger.getLogger(ParseAddress.class);
+    private static final int REASONABLE_UPPER_BOUND = 80;
+    
+    public static Map<AddressComponent, String> withTimeout(String rawAddress) {
+        return withTimeout(rawAddress, 4, TimeUnit.SECONDS);
+    }
+    
+    public static Map<AddressComponent, String> withTimeout(String rawAddress, int timeoutValue, TimeUnit timeoutUnit) {
         if(rawAddress == null || rawAddress.length() > REASONABLE_UPPER_BOUND) {
-        	//LOG.debug("The value passed is unacceptable: '" + rawAddress + "'.");
-        	return null;
+            //LOG.debug("The value passed is unacceptable: '" + rawAddress + "'.");
+            return null;
         }
-		
-		ExecutorService executor = Executors.newSingleThreadExecutor();
+        
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<Map<AddressComponent, String>> future = executor.submit(new Task(rawAddress));
         Map<AddressComponent, String> result = null;
         DateTime start = DateTime.now();
@@ -42,23 +42,23 @@ public class ParseAddress {
                       "'. Time taken was " + elapsed.getStandardSeconds() + " seconds.", e);
             result = null;
         } finally {
-        	executor.shutdownNow();
+            executor.shutdownNow();
         }
         
         return result;
-	}
-	
-	public static class Task implements Callable<Map<AddressComponent, String>> {
-		private final String address;
-		
-		public Task(String rawAddress) {
-			address = rawAddress;
-		}
+    }
+    
+    public static class Task implements Callable<Map<AddressComponent, String>> {
+        private final String address;
+        
+        public Task(String rawAddress) {
+            address = rawAddress;
+        }
 
-		@Override
-		public Map<AddressComponent, String> call() throws Exception {
-			return AddressParser.parseAddress(address, true);
-		}
-		
-	}
+        @Override
+        public Map<AddressComponent, String> call() throws Exception {
+            return AddressParser.parseAddress(address, true);
+        }
+        
+    }
 }

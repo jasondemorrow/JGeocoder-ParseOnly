@@ -84,7 +84,7 @@ public class AddressStandardizer{
   }
   
   public static Map<AddressComponent, String> normalizeParsedAddress(Map<AddressComponent, String> parsedAddr) {
-	  return normalizeParsedAddress(parsedAddr, true);
+      return normalizeParsedAddress(parsedAddr, true);
   }
   
   /**
