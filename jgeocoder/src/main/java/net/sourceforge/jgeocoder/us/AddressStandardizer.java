@@ -49,7 +49,7 @@ public class AddressStandardizer{
    * @param parsedAddr
    * @return
    */
-  public static String toSingleLine(Map<AddressComponent, String> parsedAddr){
+  public static String toSingleLine(Map<AddressComponent, String> parsedAddr, boolean excludeCityStateZip){
     if(parsedAddr == null){
       return null;
     }
@@ -71,10 +71,16 @@ public class AddressStandardizer{
       sb.append(", ");
     }
     appendIfNotNull(sb, parsedAddr.get(LINE2), ", ");
-    appendIfNotNull(sb, parsedAddr.get(CITY), ", ");
-    appendIfNotNull(sb, parsedAddr.get(STATE), " ");
-    appendIfNotNull(sb, parsedAddr.get(ZIP), " ");
+    if(!excludeCityStateZip) {
+	    appendIfNotNull(sb, parsedAddr.get(CITY), ", ");
+	    appendIfNotNull(sb, parsedAddr.get(STATE), " ");
+	    appendIfNotNull(sb, parsedAddr.get(ZIP), " ");
+    }
     return sb.toString().replaceAll(" ,", ",");
+  }
+  
+  public static String toSingleLine(Map<AddressComponent, String> parsedAddr) {
+	  return toSingleLine(parsedAddr, false);
   }
   
   private static void appendIfNotNull(StringBuilder sb, String s, String suffix){

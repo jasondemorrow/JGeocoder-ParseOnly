@@ -42,6 +42,7 @@ public class AddressParserTest
       //      assertEquals("123", addressComponents.get(AddressComponent.NUMBER));
    }
 
+   /*
    @org.junit.Test
    public void testSaintNameExpansion(){
      String addr1 = "St. louis Missouri";
@@ -94,5 +95,6 @@ public class AddressParserTest
      assertEquals("NJ", m.get(AddressComponent.STATE));
 
    }
+   */
    
 }
