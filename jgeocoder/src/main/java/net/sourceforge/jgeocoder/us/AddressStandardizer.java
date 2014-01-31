@@ -72,15 +72,15 @@ public class AddressStandardizer{
     }
     appendIfNotNull(sb, parsedAddr.get(LINE2), ", ");
     if(!excludeCityStateZip) {
-	    appendIfNotNull(sb, parsedAddr.get(CITY), ", ");
-	    appendIfNotNull(sb, parsedAddr.get(STATE), " ");
-	    appendIfNotNull(sb, parsedAddr.get(ZIP), " ");
+        appendIfNotNull(sb, parsedAddr.get(CITY), ", ");
+        appendIfNotNull(sb, parsedAddr.get(STATE), " ");
+        appendIfNotNull(sb, parsedAddr.get(ZIP), " ");
     }
     return sb.toString().replaceAll(" ,", ",");
   }
   
   public static String toSingleLine(Map<AddressComponent, String> parsedAddr) {
-	  return toSingleLine(parsedAddr, false);
+      return toSingleLine(parsedAddr, false);
   }
   
   private static void appendIfNotNull(StringBuilder sb, String s, String suffix){
