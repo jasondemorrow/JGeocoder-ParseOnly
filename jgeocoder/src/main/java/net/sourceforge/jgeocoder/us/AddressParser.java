@@ -152,11 +152,11 @@ public class AddressParser{
           if(normalizedState != null){
               stateSet.add(normalizedState);
           }else{ //if no state in put, this needs to work much harder
-              stateSet.addAll(SpecialData.C_MAP.keySet());
+              stateSet.addAll(SpecialData.getCityMap().keySet());
           }
           int stateIdx = parsedstate == null ? input.length() : input.lastIndexOf(parsedstate);
           for(String state : stateSet){
-              for(String s : SpecialData.C_MAP.get(state)){
+              for(String s : SpecialData.getCityMap().get(state)){
                     int idx = -1;
                     if((idx =inputUpper.lastIndexOf(s))!=-1){ //and the input has one of the city names that can confuse the parser
                       //this almost guaranteed to break the parser, help the parser by putting a comma separator before the city
