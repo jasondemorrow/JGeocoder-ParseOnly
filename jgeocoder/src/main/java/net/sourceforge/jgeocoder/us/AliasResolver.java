@@ -1,7 +1,6 @@
 package net.sourceforge.jgeocoder.us;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,8 +20,8 @@ public class AliasResolver{
                     Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<String, Map<String,String>>();
                     BufferedReader br = null;
                     try {
-                        String resourcePath = "src/main/resources/city-alias.txt";
-                        InputStream is = new FileInputStream(resourcePath);
+                        String resourcePath = "/city-alias.txt";
+                        InputStream is = getClass().getResourceAsStream(resourcePath);
                         br = new BufferedReader(new InputStreamReader(is));
                         String line = null;
                         Map<String, Set<String>> allRealCitiesMap = new HashMap<String, Set<String>>();

@@ -1,7 +1,6 @@
 package net.sourceforge.jgeocoder.us;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,8 +19,8 @@ public class SpecialData{
                     Map<String, List<String>> C_MAP = new HashMap<String, List<String>>();
                     BufferedReader r = null;
                     try {
-                        String resourcePath = "src/main/resources/exception_city.txt";
-                        InputStream is = new FileInputStream(resourcePath);
+                        String resourcePath = "/exception_city.txt";
+                        InputStream is = getClass().getResourceAsStream(resourcePath);
                         r = new BufferedReader(new InputStreamReader(is));
                         String line = null;
                         Map<String, Set<String>> tmp = new HashMap<String, Set<String>>();
