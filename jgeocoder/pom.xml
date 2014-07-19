@@ -13,7 +13,7 @@
   <groupId>net.sourceforge.jgeocoder</groupId>
   <artifactId>jgeocoder-parseonly</artifactId>
   <packaging>jar</packaging>
-  <version>0.10</version>
+  <version>0.11</version>
   <licenses>
       <license>
           <name>Apache License 2.0</name>
@@ -113,8 +113,8 @@
         <configuration>
           <compilerArgument>-Xlint:all,-deprecation</compilerArgument>
           <showWarnings>true</showWarnings>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>     
     </plugins>    
@@ -187,7 +187,7 @@
                 <linkXref>true</linkXref>
                 <sourceEncoding>utf-8</sourceEncoding>
                 <minimumTokens>80</minimumTokens>
-                <targetJdk>1.6</targetJdk>
+                <targetJdk>1.8</targetJdk>
             </configuration>
         </plugin>
         <plugin>
@@ -245,7 +245,7 @@
               http://java.sun.com/javaee/5/docs/api/
             </list>
           </links>
-          <source>1.7</source>
+          <source>1.8</source>
         </configuration>
       </plugin>
       <plugin>
