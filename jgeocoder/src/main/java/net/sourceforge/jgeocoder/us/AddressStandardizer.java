@@ -61,7 +61,7 @@ public class AddressStandardizer{
     appendIfNotNull(sb, parsedAddr.get(TYPE), " ");
     appendIfNotNull(sb, parsedAddr.get(POSTDIR), " ");
     if(parsedAddr.get(STREET2) != null){
-      sb.append("& ");
+      sb.append("and ");
       appendIfNotNull(sb, parsedAddr.get(PREDIR2), " ");
       appendIfNotNull(sb, parsedAddr.get(STREET2), " ");
       appendIfNotNull(sb, parsedAddr.get(TYPE2), " ");
