@@ -74,7 +74,7 @@ public class AddressParser{
       ret.remove(AddressComponent.TLID);//HACK!
     }
     m = CORNER.matcher(new InterruptibleCharSequence(rawAddr));
-    if(ret == null && m.find()){
+    if(m.find()){
       m = INTERSECTION.matcher(new InterruptibleCharSequence(rawAddr));
       if(m.matches()){
         ret = getAddrMap(m, P_INTERSECTION.getNamedGroupMap());
